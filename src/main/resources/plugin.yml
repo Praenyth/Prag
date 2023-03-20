@@ -1,0 +1,8 @@
+name: Prag
+version: '${project.version}'
+main: nyth.prae.awesome.plugins.prag.Prag
+api-version: 1.19
+prefix: Prag
+authors: [Prae]
+description: The most tag game ever
+website: https://github.com/Praenyth
