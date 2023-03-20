@@ -25,7 +25,6 @@ public class PragCommand {
                     Function.identity(),
                     Function.identity()
             );
-            commandManager.registerBrigadier();
 
             annotationParser = new AnnotationParser<>(
                     commandManager,
