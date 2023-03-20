@@ -8,12 +8,17 @@ import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.SimpleCommandMeta;
 import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.commands.subcommands.PragStartCommand;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.util.function.Function;
 
 public class PragCommand {
 
+    /**
+     * Registers all commands of the plugin
+     * @author Prae
+    */
     public static void register() {
         final BukkitCommandManager commandManager;
         AnnotationParser<CommandSender> annotationParser;
@@ -37,6 +42,7 @@ public class PragCommand {
             return;
         }
 
+        // Register subcommands
         annotationParser.parse(new PragCommand());
         annotationParser.parse(new PragStartCommand());
 
@@ -44,7 +50,7 @@ public class PragCommand {
 
     @CommandMethod("prag")
     public void prag(CommandContext<CommandSender> sender) {
-        sender.getSender().sendMessage("Hello World");
+        sender.getSender().sendMessage(ChatColor.GREEN+"This is the neat Prag main command! Cool huh? Feel free to start the game with /prag start!!");
     }
 
 }

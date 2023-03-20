@@ -6,11 +6,11 @@ import cloud.commandframework.annotations.CommandPermission;
 import cloud.commandframework.context.CommandContext;
 import org.bukkit.command.CommandSender;
 
-public class PragStartCommand {
+public class PragSettingsCommand {
 
-    @CommandMethod("prag start")
-    @CommandDescription("Starts the game!")
-    @CommandPermission("prag.admin.start")
+    @CommandMethod("prag settings")
+    @CommandDescription("Changes the settings of the game!")
+    @CommandPermission("prag.admin.settings")
     public void start(CommandContext<CommandSender> sender) {
         sender.getSender().sendMessage("Hello World");
     }
