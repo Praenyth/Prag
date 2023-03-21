@@ -3,6 +3,8 @@ package nyth.prae.awesome.plugins.prag;
 import nyth.prae.awesome.plugins.prag.enums.HunterDamageType;
 import nyth.prae.awesome.plugins.prag.enums.GameType;
 
+import java.util.concurrent.TimeUnit;
+
 public class Util {
 
     public static void setAndSaveConfig(String s, Object v) {
@@ -17,6 +19,16 @@ public class Util {
         Prag.settingsCache.tagType = GameType.valueOf(Prag.instance.getConfig().getString("Tag-Type"));
         Prag.instance.saveConfig();
         Prag.instance.reloadConfig();
+    }
+
+    public static String displayTimer(int sec) {
+        int hours = (int) TimeUnit.SECONDS.toHours(sec);
+        int minutes = (int) (TimeUnit.SECONDS.toMinutes(sec) - TimeUnit.HOURS.toMinutes(hours));
+        int seconds = (int) (TimeUnit.SECONDS.toSeconds(sec) - TimeUnit.MINUTES.toSeconds(minutes));
+        if (seconds < 0) {
+            seconds = 0;
+        }
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
 }
