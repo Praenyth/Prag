@@ -14,7 +14,7 @@ public final class Prag extends JavaPlugin {
     public static Configuration config;
     public static GameState gameState;
     public static UUID taggerUUID;
-    public static Settings settings;
+    public static SettingsCache settingsCache;
 
     @Override
     public void onEnable() {

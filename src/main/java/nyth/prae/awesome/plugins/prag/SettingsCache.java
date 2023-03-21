@@ -3,7 +3,7 @@ package nyth.prae.awesome.plugins.prag;
 import nyth.prae.awesome.plugins.prag.enums.GameType;
 import nyth.prae.awesome.plugins.prag.enums.HunterDamageType;
 
-public class Settings {
+public class SettingsCache {
     public GameType tagType;
     public boolean adventureMode;
     public int preparationTime;
