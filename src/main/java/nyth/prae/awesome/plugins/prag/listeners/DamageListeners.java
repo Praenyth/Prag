@@ -1,6 +1,6 @@
 package nyth.prae.awesome.plugins.prag.listeners;
 
-import nyth.prae.awesome.plugins.prag.GameState;
+import nyth.prae.awesome.plugins.prag.enums.GameState;
 import nyth.prae.awesome.plugins.prag.Prag;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;

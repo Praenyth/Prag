@@ -11,8 +11,8 @@ public class PragStopCommand {
     @CommandMethod("prag stop")
     @CommandDescription("Stops the game!")
     @CommandPermission("prag.admin.stop")
-    public void start(CommandContext<CommandSender> sender) {
-        sender.getSender().sendMessage("Hello World");
+    public void stop(CommandContext<CommandSender> context) {
+        context.getSender().sendMessage("Hello World");
     }
 
 }

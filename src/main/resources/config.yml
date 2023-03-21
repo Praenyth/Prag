@@ -1,0 +1,20 @@
+# Prag (Prae's Tag) Configuration!
+
+# The type of tag game you'd like to play!
+Tag-Type: TAG
+
+# Adventure Mode
+Adventure-Mode: false
+
+# The time (in seconds) of the praparation period
+# I recommend setting this to a lower value if you have Adventure Mode enabled.
+Preparation-Time: 120
+
+# The time (in seconds) of the game period
+Game-Time: 300
+
+# The type of damage the hunters will do to the runners!
+Hunter-Damage-Type: INSTANT
+
+# The amount of damage the hunters will do to the runners, at the lowest!
+Hunter-Damage: 0

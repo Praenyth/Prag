@@ -7,7 +7,9 @@ import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.meta.SimpleCommandMeta;
 import nyth.prae.awesome.plugins.prag.Prag;
+import nyth.prae.awesome.plugins.prag.commands.subcommands.PragSettingsCommand;
 import nyth.prae.awesome.plugins.prag.commands.subcommands.PragStartCommand;
+import nyth.prae.awesome.plugins.prag.commands.subcommands.PragStopCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -45,6 +47,8 @@ public class PragCommand {
         // Register subcommands
         annotationParser.parse(new PragCommand());
         annotationParser.parse(new PragStartCommand());
+        annotationParser.parse(new PragStopCommand());
+        annotationParser.parse(new PragSettingsCommand());
 
     }
 
