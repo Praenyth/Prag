@@ -6,6 +6,7 @@ import nyth.prae.awesome.plugins.prag.listeners.DamageListeners;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
 import java.util.UUID;
 
 public final class Prag extends JavaPlugin {
@@ -13,8 +14,8 @@ public final class Prag extends JavaPlugin {
     public static Prag instance;
     public static Configuration config;
     public static GameState gameState;
-    public static UUID taggerUUID;
     public static SettingsCache settingsCache;
+    public static List<UUID> taggers;
 
     @Override
     public void onEnable() {

@@ -13,8 +13,11 @@ Preparation-Time: 120
 # The time (in seconds) of the game period
 Game-Time: 300
 
-# The type of damage the hunters will do to the runners!
-Hunter-Damage-Type: INSTANT
+# The type of damage the taggers will do to the runners!
+Tagger-Damage-Type: INSTANT
 
-# The amount of damage the hunters will do to the runners, at the lowest!
-Hunter-Damage: 0
+# The amount of damage the taggers will do to the runners, at the lowest!
+Tagger-Damage: 0
+
+# The amount of taggers in the game!
+Amount-Of-Taggers: 1

@@ -21,9 +21,15 @@ public class GameTimePeriod extends BukkitRunnable {
         timeLeft--;
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED+Util.displayTimer(timeLeft)));
+            if (Prag.taggers.contains(player.getUniqueId())) {
+                player.setDisplayName(ChatColor.RED + player.getName());
+            } else {
+                player.setDisplayName(ChatColor.GREEN + player.getName());
+            }
         }
 
         if (timeLeft <= 0) {
+            Prag.taggers.clear();
             cancel();
         }
     }

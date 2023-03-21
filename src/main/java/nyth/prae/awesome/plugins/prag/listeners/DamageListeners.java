@@ -19,9 +19,9 @@ public class DamageListeners implements Listener {
             Player victim = (Player) event.getEntity();
 
             if (Prag.gameState == GameState.INGAME) {
-                if (damager.getUniqueId().equals(Prag.taggerUUID)) {
-                    if (victim.getGameMode().equals(GameMode.SURVIVAL)) {
-                        Prag.taggerUUID = victim.getUniqueId();
+                if (damager.getGameMode().equals(GameMode.SURVIVAL)) {
+                    if (Prag.taggers.contains(damager.getUniqueId())) {
+                        event.setCancelled(true);
                     }
                 }
             }
@@ -36,9 +36,7 @@ public class DamageListeners implements Listener {
             Player player = (Player) event.getEntity();
             if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
                 if (Prag.gameState == GameState.INGAME) {
-                    if (player.getGameMode().equals(GameMode.SURVIVAL)) {
-                        event.setCancelled(true);
-                    }
+                    event.setCancelled(true);
                 }
             }
         }

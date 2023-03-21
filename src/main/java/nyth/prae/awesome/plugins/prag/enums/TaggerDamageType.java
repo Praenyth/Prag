@@ -1,6 +1,6 @@
 package nyth.prae.awesome.plugins.prag.enums;
 
-public enum HunterDamageType {
+public enum TaggerDamageType {
     INSTANT,
     POISONED,
     DAMAGE

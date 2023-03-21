@@ -6,8 +6,14 @@ import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class PreparationTimePeriod extends BukkitRunnable {
 
@@ -24,7 +30,25 @@ public class PreparationTimePeriod extends BukkitRunnable {
         }
 
         if (timeLeft <= 0) {
+
+            List<UUID> tempPlayerList = new ArrayList<>();
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                tempPlayerList.add(player.getUniqueId());
+            }
+            while (Prag.taggers.size() < Prag.config.getInt("Amount-Of-Taggers")) {
+                int random = new Random().nextInt(tempPlayerList.size());
+                UUID randomUUID = tempPlayerList.get(random);
+
+                if (Bukkit.getPlayer(randomUUID).getGameMode() != GameMode.SURVIVAL || Bukkit.getPlayer(randomUUID).getGameMode() != GameMode.ADVENTURE) {
+                    tempPlayerList.remove(random);
+                } else {
+                    Prag.taggers.add(randomUUID);
+                }
+            }
+
             cancel();
+            new GameTimePeriod().start();
+
         }
     }
 }

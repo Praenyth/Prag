@@ -1,6 +1,6 @@
 package nyth.prae.awesome.plugins.prag;
 
-import nyth.prae.awesome.plugins.prag.enums.HunterDamageType;
+import nyth.prae.awesome.plugins.prag.enums.TaggerDamageType;
 import nyth.prae.awesome.plugins.prag.enums.GameType;
 
 import java.util.concurrent.TimeUnit;
@@ -13,10 +13,11 @@ public class Util {
         Prag.settingsCache = new SettingsCache();
         Prag.settingsCache.adventureMode = Prag.instance.getConfig().getBoolean("Adventure-Mode");
         Prag.settingsCache.gameTime = Prag.instance.getConfig().getInt("Game-Time");
-        Prag.settingsCache.hunterDamage = Prag.instance.getConfig().getDouble("Hunter-Damage");
-        Prag.settingsCache.hunterDamageType = HunterDamageType.valueOf(Prag.instance.getConfig().getString("Hunter-Damage-Type"));
+        Prag.settingsCache.taggerDamage = Prag.instance.getConfig().getDouble("Tagger-Damage");
+        Prag.settingsCache.taggerDamageType = TaggerDamageType.valueOf(Prag.instance.getConfig().getString("Tagger-Damage-Type"));
         Prag.settingsCache.preparationTime = Prag.instance.getConfig().getInt("Preparation-Time");
         Prag.settingsCache.tagType = GameType.valueOf(Prag.instance.getConfig().getString("Tag-Type"));
+        Prag.settingsCache.amountOfTaggers = Prag.instance.getConfig().getInt("Amount-Of-Taggers");
         Prag.instance.saveConfig();
         Prag.instance.reloadConfig();
     }

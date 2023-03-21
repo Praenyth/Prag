@@ -7,7 +7,7 @@ import cloud.commandframework.annotations.CommandPermission;
 import cloud.commandframework.context.CommandContext;
 import nyth.prae.awesome.plugins.prag.enums.GameType;
 import nyth.prae.awesome.plugins.prag.Util;
-import nyth.prae.awesome.plugins.prag.enums.HunterDamageType;
+import nyth.prae.awesome.plugins.prag.enums.TaggerDamageType;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -51,20 +51,26 @@ public class PragSettingsCommand {
         context.getSender().sendMessage(ChatColor.YELLOW+"This is to change the amount of time (in seconds) of the game! The changes automatically save, so you won't have to worry about that!");
     }
 
-    @CommandMethod("prag settings hunterdamagetype")
-    @CommandDescription("Changes the damage type that the hunters do to the runners!")
+    @CommandMethod("prag settings taggerdamagetype")
+    @CommandDescription("Changes the damage type that the taggers do to the runners!")
     @CommandPermission("prag.admin.settings")
-    public void hunterDamageTypeHelp(CommandContext<CommandSender> context) {
-        context.getSender().sendMessage(ChatColor.YELLOW+"This is to change the hunter damage type provided by the plugin! The changes automatically save, so you won't have to worry about that!");
+    public void taggerDamageTypeHelp(CommandContext<CommandSender> context) {
+        context.getSender().sendMessage(ChatColor.YELLOW+"This is to change the tagger damage type provided by the plugin! The changes automatically save, so you won't have to worry about that!");
     }
 
-    @CommandMethod("prag settings hunterdamage")
-    @CommandDescription("Changes the damage that the hunters do to the runners!")
+    @CommandMethod("prag settings taggerdamage")
+    @CommandDescription("Changes the damage that the taggers do to the runners!")
     @CommandPermission("prag.admin.settings")
-    public void hunterDamageHelp(CommandContext<CommandSender> context) {
-        context.getSender().sendMessage(ChatColor.YELLOW+"This is to change the amount of damage that the hunters do to the runners! The changes automatically save, so you won't have to worry about that!");
+    public void taggerDamageHelp(CommandContext<CommandSender> context) {
+        context.getSender().sendMessage(ChatColor.YELLOW+"This is to change the amount of damage that the taggers do to the runners! The changes automatically save, so you won't have to worry about that!");
     }
 
+    @CommandMethod("prag settings taggeramount")
+    @CommandDescription("Changes the amount of taggers there are!")
+    @CommandPermission("prag.admin.settings")
+    public void taggerAmountHelp(CommandContext<CommandSender> context) {
+        context.getSender().sendMessage(ChatColor.YELLOW+"This is to change the amount of taggers! The changes automatically save, so you won't have to worry about that!");
+    }
     //
     // Change settings commands
     //
@@ -101,19 +107,27 @@ public class PragSettingsCommand {
         context.getSender().sendMessage(ChatColor.GREEN+"The game time has been set to "+gametime+" seconds!");
     }
 
-    @CommandMethod("prag settings hunterdamagetype <hunterdamagetype>")
-    @CommandDescription("Changes the damage type that the hunters do to the runners!")
+    @CommandMethod("prag settings taggerdamagetype <taggerdamagetype>")
+    @CommandDescription("Changes the damage type that the taggers do to the runners!")
     @CommandPermission("prag.admin.settings")
-    public void setHunterDamageType(CommandContext<CommandSender> context, @Argument(value = "hunterdamagetype") HunterDamageType hunterDamageType) {
-        Util.setAndSaveConfig("Hunter-Damage-Type", hunterDamageType.name());
-        context.getSender().sendMessage(ChatColor.GREEN+"The hunter damage type has been set to "+hunterDamageType.name()+"!");
+    public void setTaggerDamageType(CommandContext<CommandSender> context, @Argument(value = "taggerdamagetype") TaggerDamageType taggerDamageType) {
+        Util.setAndSaveConfig("Tagger-Damage-Type", taggerDamageType.name());
+        context.getSender().sendMessage(ChatColor.GREEN+"The tagger damage type has been set to "+taggerDamageType.name()+"!");
     }
 
-    @CommandMethod("prag settings hunterdamage <hunterdamage>")
-    @CommandDescription("Changes the damage that the hunters do to the runners!")
+    @CommandMethod("prag settings taggerdamage <taggerdamage>")
+    @CommandDescription("Changes the damage that the taggers do to the runners!")
     @CommandPermission("prag.admin.settings")
-    public void setHunterDamage(CommandContext<CommandSender> context, @Argument(value = "hunterdamage") double hunterDamage) {
-        Util.setAndSaveConfig("Hunter-Damage", hunterDamage);
-        context.getSender().sendMessage(ChatColor.GREEN+"The hunter damage type has been set to "+hunterDamage+"!");
+    public void setTaggerDamage(CommandContext<CommandSender> context, @Argument(value = "taggerdamage") double taggerDamage) {
+        Util.setAndSaveConfig("Tagger-Damage", taggerDamage);
+        context.getSender().sendMessage(ChatColor.GREEN+"The tagger damage has been set to "+taggerDamage+"!");
+    }
+
+    @CommandMethod("prag settings taggeramount <taggeramount>")
+    @CommandDescription("Changes the amount of taggers there are!")
+    @CommandPermission("prag.admin.settings")
+    public void setTaggerAmount(CommandContext<CommandSender> context, @Argument(value = "taggeramount") double taggerAmount) {
+        Util.setAndSaveConfig("Amount-Of-Taggers", taggerAmount);
+        context.getSender().sendMessage(ChatColor.GREEN+"The tagger amount has been set to "+taggerAmount+"!");
     }
 }
