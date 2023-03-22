@@ -17,11 +17,13 @@ import java.util.UUID;
 
 public class PreparationTimePeriod extends BukkitRunnable {
 
-    private int timeLeft = Prag.config.getInt("Preparation-Time");
+    private int timeLeft;
 
     public void start() {
+        timeLeft = Prag.config.getInt("Preparation-Time");
         runTaskTimer(Prag.instance, 0, 20);
     }
+    public void cancel() { super.cancel(); }
     @Override
     public void run() {
         timeLeft--;
@@ -31,23 +33,20 @@ public class PreparationTimePeriod extends BukkitRunnable {
 
         if (timeLeft <= 0) {
 
-            List<UUID> tempPlayerList = new ArrayList<>();
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                tempPlayerList.add(player.getUniqueId());
-            }
             while (Prag.taggers.size() < Prag.config.getInt("Amount-Of-Taggers")) {
-                int random = new Random().nextInt(tempPlayerList.size());
-                UUID randomUUID = tempPlayerList.get(random);
+                Player player = Bukkit.getPlayer(Util.getRandomPlayerUUID());
 
-                if (Bukkit.getPlayer(randomUUID).getGameMode() != GameMode.SURVIVAL || Bukkit.getPlayer(randomUUID).getGameMode() != GameMode.ADVENTURE) {
-                    tempPlayerList.remove(random);
-                } else {
-                    Prag.taggers.add(randomUUID);
+                if (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE) {
+                    Prag.taggers.add(player.getUniqueId());
+                    player.setDisplayName(ChatColor.RED + player.getName());
+                    Util.announceMessage(ChatColor.RED + player.getName() + " is a tagger!");
+
                 }
             }
 
             cancel();
-            new GameTimePeriod().start();
+            Prag.gamePeriod = new GameTimePeriod();
+            Prag.gamePeriod.start();
 
         }
     }

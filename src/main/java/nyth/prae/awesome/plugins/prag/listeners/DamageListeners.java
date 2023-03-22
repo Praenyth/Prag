@@ -1,13 +1,18 @@
 package nyth.prae.awesome.plugins.prag.listeners;
 
+import nyth.prae.awesome.plugins.prag.Util;
 import nyth.prae.awesome.plugins.prag.enums.GameState;
 import nyth.prae.awesome.plugins.prag.Prag;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+
+import java.util.Objects;
 
 public class DamageListeners implements Listener {
 
@@ -21,7 +26,35 @@ public class DamageListeners implements Listener {
             if (Prag.gameState == GameState.INGAME) {
                 if (damager.getGameMode().equals(GameMode.SURVIVAL)) {
                     if (Prag.taggers.contains(damager.getUniqueId())) {
-                        event.setCancelled(true);
+                        switch (Prag.config.getString("Tag-Type")) {
+                            case "NORMAL":
+                                Prag.taggers.remove(damager.getUniqueId());
+                                Prag.taggers.add(victim.getUniqueId());
+                                Util.announceMessage(ChatColor.RED + victim.getName() + " was tagged by " + damager.getName() + "!");
+                                break;
+                            case "FREEZE":
+                                Prag.frozenPlayers.add(victim.getUniqueId());
+                                Util.announceMessage(ChatColor.AQUA + victim.getName() + " is frozen!");
+                                break;
+                            case "TNT":
+                                Prag.taggers.remove(damager.getUniqueId());
+                                Prag.taggers.add(victim.getUniqueId());
+                                Util.announceMessage(ChatColor.RED + victim.getName() + " was given the bomb from " + damager.getName() + "!");
+                                break;
+                            case "ELIMINATION":
+                                break;
+                            case "INFECTION":
+                                Prag.taggers.add(victim.getUniqueId());
+                                Util.announceMessage(ChatColor.RED + victim.getName() + " was infected by " + damager.getName() + "!");
+                                break;
+                        }
+                    } else if (Objects.equals(Prag.config.getString("Tag-Type"), "FREEZE")) {
+                        if (Prag.frozenPlayers.contains(damager.getUniqueId())) {
+                            event.setCancelled(true);
+                        } else if (!Prag.taggers.contains(damager.getUniqueId())) {
+                            Prag.frozenPlayers.remove(victim.getUniqueId());
+                            Util.announceMessage(ChatColor.AQUA + victim.getName() + " is no longer frozen!");
+                        }
                     }
                 }
             }
@@ -40,6 +73,13 @@ public class DamageListeners implements Listener {
                 }
             }
         }
+
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+
+
 
     }
 

@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.Util;
+import nyth.prae.awesome.plugins.prag.enums.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,10 +12,16 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameTimePeriod extends BukkitRunnable {
 
-    private int timeLeft = Prag.config.getInt("Game-Time");
+    private int timeLeft;
 
     public void start() {
+        timeLeft = Prag.config.getInt("Game-Time");
         runTaskTimer(Prag.instance, 0, 20);
+    }
+    public void cancel() {
+        Prag.gameState = GameState.LOBBY;
+        Prag.taggers.clear();
+        super.cancel();
     }
     @Override
     public void run() {
@@ -29,7 +36,6 @@ public class GameTimePeriod extends BukkitRunnable {
         }
 
         if (timeLeft <= 0) {
-            Prag.taggers.clear();
             cancel();
         }
     }

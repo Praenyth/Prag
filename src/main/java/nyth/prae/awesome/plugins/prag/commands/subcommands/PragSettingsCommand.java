@@ -30,13 +30,6 @@ public class PragSettingsCommand {
         context.getSender().sendMessage(ChatColor.YELLOW+"This is to change the tag game provided by the plugin! The changes automatically save, so you won't have to worry about that!");
     }
 
-    @CommandMethod("prag settings adventuremode")
-    @CommandDescription("Changes if the players are in adventure mode or not!")
-    @CommandPermission("prag.admin.settings")
-    public void adventureModeHelp(CommandContext<CommandSender> context) {
-        context.getSender().sendMessage(ChatColor.YELLOW+"This is to change whether or not the players are in adventure mode or not. The changes automatically save, so you won't have to worry about that!");
-    }
-
     @CommandMethod("prag settings preparationtime")
     @CommandDescription("Changes the time (in seconds) in the preparation period of the game!")
     @CommandPermission("prag.admin.settings")
@@ -81,14 +74,6 @@ public class PragSettingsCommand {
 
         Util.setAndSaveConfig("Tag-Type", tagType.name());
         context.getSender().sendMessage(ChatColor.GREEN+"The tag type has been changed to "+tagType.name()+"!");
-    }
-
-    @CommandMethod("prag settings adventuremode <adventuremode>")
-    @CommandDescription("Changes if the players are in adventure mode or not!")
-    @CommandPermission("prag.admin.settings")
-    public void setAdventureMode(CommandContext<CommandSender> context, @Argument(value = "adventuremode") boolean adventuremode) {
-        Util.setAndSaveConfig("Adventure-Mode", adventuremode);
-        context.getSender().sendMessage(ChatColor.GREEN+"Adventure mode has been set to "+adventuremode+"!");
     }
 
     @CommandMethod("prag settings preparationtime <preparationtime>")

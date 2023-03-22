@@ -5,6 +5,8 @@ import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.CommandPermission;
 import cloud.commandframework.context.CommandContext;
 import nyth.prae.awesome.plugins.prag.Prag;
+import nyth.prae.awesome.plugins.prag.enums.GameState;
+import nyth.prae.awesome.plugins.prag.runnables.PreparationTimePeriod;
 import org.bukkit.command.CommandSender;
 
 public class PragStartCommand {
@@ -14,6 +16,11 @@ public class PragStartCommand {
     @CommandPermission("prag.admin.start")
     public void start(CommandContext<CommandSender> context) {
         context.getSender().sendMessage("Game started with type: "+ Prag.config.get("Tag-Type"));
+
+        Prag.gameState = GameState.LOBBY;
+
+        Prag.preparationPeriod = new PreparationTimePeriod();
+        Prag.preparationPeriod.start();
     }
 
 }

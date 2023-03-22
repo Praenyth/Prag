@@ -3,9 +3,6 @@
 # The type of tag game you'd like to play!
 Tag-Type: TAG
 
-# Adventure Mode
-Adventure-Mode: false
-
 # The time (in seconds) of the praparation period
 # I recommend setting this to a lower value if you have Adventure Mode enabled.
 Preparation-Time: 120

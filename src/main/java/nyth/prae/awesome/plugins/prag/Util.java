@@ -2,7 +2,12 @@ package nyth.prae.awesome.plugins.prag;
 
 import nyth.prae.awesome.plugins.prag.enums.TaggerDamageType;
 import nyth.prae.awesome.plugins.prag.enums.GameType;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class Util {
@@ -30,6 +35,21 @@ public class Util {
             seconds = 0;
         }
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+
+    public static UUID getRandomPlayerUUID() {
+
+        List<UUID> uuids = new ArrayList<>();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            uuids.add(player.getUniqueId());
+        }
+        return uuids.get((int) (Math.random() * uuids.size()));
+    }
+
+    public static void announceMessage(String message) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(message);
+        }
     }
 
 }
