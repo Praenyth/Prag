@@ -16,7 +16,7 @@ public class GameTimePeriod extends BukkitRunnable {
 
     public void start() {
         timeLeft = Prag.config.getInt("Game-Time");
-        runTaskTimer(Prag.instance, 0, 20);
+        runTaskTimer(Prag.INSTANCE, 0, 20);
     }
     public void cancel() {
         Prag.gameState = GameState.LOBBY;

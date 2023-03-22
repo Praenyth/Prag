@@ -27,7 +27,7 @@ public class PragCommand {
         try {
 
             commandManager = new BukkitCommandManager(
-                    Prag.instance,
+                    Prag.INSTANCE,
                     CommandExecutionCoordinator.simpleCoordinator(),
                     Function.identity(),
                     Function.identity()

@@ -5,9 +5,13 @@ import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.CommandPermission;
 import cloud.commandframework.context.CommandContext;
 import nyth.prae.awesome.plugins.prag.Prag;
+import nyth.prae.awesome.plugins.prag.Util;
 import nyth.prae.awesome.plugins.prag.enums.GameState;
+import nyth.prae.awesome.plugins.prag.enums.Roles;
 import nyth.prae.awesome.plugins.prag.runnables.PreparationTimePeriod;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class PragStartCommand {
 
@@ -18,6 +22,11 @@ public class PragStartCommand {
         context.getSender().sendMessage("Game started with type: "+ Prag.config.get("Tag-Type"));
 
         Prag.gameState = GameState.LOBBY;
+
+        for (Player player:
+                Bukkit.getOnlinePlayers()) {
+            Util.setRole(player, Roles.RUNNER);
+        }
 
         Prag.preparationPeriod = new PreparationTimePeriod();
         Prag.preparationPeriod.start();

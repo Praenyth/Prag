@@ -6,14 +6,8 @@ import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 public class PreparationTimePeriod extends BukkitRunnable {
 
@@ -21,7 +15,7 @@ public class PreparationTimePeriod extends BukkitRunnable {
 
     public void start() {
         timeLeft = Prag.config.getInt("Preparation-Time");
-        runTaskTimer(Prag.instance, 0, 20);
+        runTaskTimer(Prag.INSTANCE, 0, 20);
     }
     public void cancel() { super.cancel(); }
     @Override
@@ -35,13 +29,9 @@ public class PreparationTimePeriod extends BukkitRunnable {
 
             while (Prag.taggers.size() < Prag.config.getInt("Amount-Of-Taggers")) {
                 Player player = Bukkit.getPlayer(Util.getRandomPlayerUUID());
-
-                if (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE) {
-                    Prag.taggers.add(player.getUniqueId());
-                    player.setDisplayName(ChatColor.RED + player.getName());
-                    Util.announceMessage(ChatColor.RED + player.getName() + " is a tagger!");
-
-                }
+                Prag.taggers.add(player.getUniqueId());
+                player.setDisplayName(ChatColor.RED + player.getName());
+                Util.announceMessage(ChatColor.RED + player.getName() + " is a tagger!");
             }
 
             cancel();
