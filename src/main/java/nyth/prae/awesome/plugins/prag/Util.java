@@ -127,6 +127,15 @@ public class Util {
     }
 
     /**
+     * Gets the team from the player
+     * @param player The player to get the team of
+     * @return The team of the player
+     */
+    public static Team getTeamFromPlayer(Player player) {
+        return Prag.PRAG_SCOREBOARD.getEntryTeam(player.getName());
+    }
+
+    /**
      * Gets the team from the name
      * @param scoreHolder The player to get the scoreboard from
      * @param name The name of the team
@@ -134,6 +143,15 @@ public class Util {
      */
     public static Team getTeamFromName(Player scoreHolder, String name) {
         return scoreHolder.getScoreboard().getTeam(name);
+    }
+
+    /**
+     * Gets the team from the name
+     * @param name The name of the team
+     * @return The team of the player
+     */
+    public static Team getTeamFromName(String name) {
+        return Prag.PRAG_SCOREBOARD.getTeam(name);
     }
 
     /**

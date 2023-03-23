@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.Util;
+import nyth.prae.awesome.plugins.prag.enums.Role;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -27,9 +28,9 @@ public class PreparationTimePeriod extends BukkitRunnable {
 
         if (timeLeft <= 0) {
 
-            while (Prag.taggers.size() < Prag.config.getInt("Amount-Of-Taggers")) {
+            while (Util.getTeamFromName(Role.TAGGER.name()).getSize() < Prag.config.getInt("Amount-Of-Taggers")) {
                 Player player = Bukkit.getPlayer(Util.getRandomPlayerUUID());
-                Prag.taggers.add(player.getUniqueId());
+                Util.setRole(player, Role.TAGGER);
                 player.setDisplayName(ChatColor.RED + player.getName());
                 Util.announceMessage(ChatColor.RED + player.getName() + " is a tagger!");
             }
