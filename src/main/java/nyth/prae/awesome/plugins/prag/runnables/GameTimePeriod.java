@@ -5,6 +5,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.Util;
 import nyth.prae.awesome.plugins.prag.enums.GameState;
+import nyth.prae.awesome.plugins.prag.enums.Role;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,7 +21,10 @@ public class GameTimePeriod extends BukkitRunnable {
     }
     public void cancel() {
         Prag.gameState = GameState.LOBBY;
-        Prag.taggers.clear();
+        for (Player player:
+             Bukkit.getOnlinePlayers()) {
+            Util.setRole(player, Role.RUNNER);
+        }
         super.cancel();
     }
     @Override

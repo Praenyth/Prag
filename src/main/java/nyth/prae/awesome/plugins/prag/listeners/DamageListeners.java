@@ -3,6 +3,7 @@ package nyth.prae.awesome.plugins.prag.listeners;
 import nyth.prae.awesome.plugins.prag.Util;
 import nyth.prae.awesome.plugins.prag.enums.GameState;
 import nyth.prae.awesome.plugins.prag.Prag;
+import nyth.prae.awesome.plugins.prag.enums.Role;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -25,28 +26,28 @@ public class DamageListeners implements Listener {
 
             if (Prag.gameState == GameState.INGAME) {
                 if (damager.getGameMode().equals(GameMode.SURVIVAL)) {
-                    if (Prag.taggers.contains(damager.getUniqueId())) {
+                    if (Util.getRole(damager) == Role.TAGGER) {
                         switch (Prag.config.getString("Tag-Type")) {
                             case "NORMAL":
-                                Prag.taggers.remove(damager.getUniqueId());
-                                Prag.taggers.add(victim.getUniqueId());
                                 Util.announceMessage(ChatColor.RED + victim.getName() + " was tagged by " + damager.getName() + "!");
+                                Util.setRole(damager, Role.RUNNER);
+                                Util.setRole(victim, Role.TAGGER);
                                 break;
                             case "FREEZE":
-                                Prag.frozenPlayers.add(victim.getUniqueId());
                                 Util.announceMessage(ChatColor.AQUA + victim.getName() + " is frozen!");
+                                Util.setRole(victim, Role.FROZEN);
                                 break;
                             case "TNT":
-                                Prag.taggers.remove(damager.getUniqueId());
-                                Prag.taggers.add(victim.getUniqueId());
                                 Util.announceMessage(ChatColor.RED + victim.getName() + " was given the bomb from " + damager.getName() + "!");
+                                Util.setRole(damager, Role.RUNNER);
+                                Util.setRole(victim, Role.TAGGER);
                                 break;
                         }
                     } else if (Objects.equals(Prag.config.getString("Tag-Type"), "FREEZE")) {
-                        if (Prag.frozenPlayers.contains(damager.getUniqueId())) {
+                        if (Util.getRole(damager) == Role.FROZEN) {
                             event.setCancelled(true);
-                        } else if (Prag.frozenPlayers.contains(victim.getUniqueId())) {
-                            Prag.frozenPlayers.remove(victim.getUniqueId());
+                        } else if (Util.getRole(victim) == Role.FROZEN) {
+                            Util.setRole(victim, Role.RUNNER);
                             Util.announceMessage(ChatColor.AQUA + victim.getName() + " is no longer frozen!");
                         }
                     }
@@ -75,9 +76,9 @@ public class DamageListeners implements Listener {
 
         Player victim = event.getEntity();
         if (Prag.gameState == GameState.INGAME) {
-            if (!Prag.taggers.contains(event.getEntity().getUniqueId())) {
+            if (!Util.getRole(victim).equals(Role.TAGGER)) {
                 if (Prag.config.getString("Tag-Type").equals("INFECTION")) {
-                    Prag.taggers.add(victim.getUniqueId());
+                    Util.setRole(victim, Role.TAGGER);
                     Util.announceMessage(ChatColor.RED + victim.getName() + " was infected!");
                 }
             }
