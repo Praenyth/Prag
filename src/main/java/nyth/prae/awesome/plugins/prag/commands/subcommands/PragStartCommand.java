@@ -7,7 +7,7 @@ import cloud.commandframework.context.CommandContext;
 import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.Util;
 import nyth.prae.awesome.plugins.prag.enums.GameState;
-import nyth.prae.awesome.plugins.prag.enums.Roles;
+import nyth.prae.awesome.plugins.prag.enums.Role;
 import nyth.prae.awesome.plugins.prag.runnables.PreparationTimePeriod;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -25,7 +25,7 @@ public class PragStartCommand {
 
         for (Player player:
                 Bukkit.getOnlinePlayers()) {
-            Util.setRole(player, Roles.RUNNER);
+            Util.setRole(player, Role.RUNNER);
         }
 
         Prag.preparationPeriod = new PreparationTimePeriod();

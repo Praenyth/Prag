@@ -1,6 +1,6 @@
 package nyth.prae.awesome.plugins.prag;
 
-import nyth.prae.awesome.plugins.prag.enums.Roles;
+import nyth.prae.awesome.plugins.prag.enums.Role;
 import nyth.prae.awesome.plugins.prag.enums.TaggerDamageType;
 import nyth.prae.awesome.plugins.prag.enums.GameType;
 import org.bukkit.Bukkit;
@@ -55,11 +55,11 @@ public class Util {
     public static List<UUID> getAllPlayerUUIDs(boolean excludeTaggers, boolean excludeDead) {
         List<UUID> uuids = new ArrayList<>();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (excludeDead && (player.getGameMode() == GameMode.SPECTATOR && player.getGameMode() == GameMode.CREATIVE)) {
+            if (excludeDead && getRole(player) == Role.SPECTATOR) {
                 continue;
             }
 
-            if (excludeTaggers && Prag.taggers.contains(player.getUniqueId())) {
+            if (excludeTaggers && getRole(player) == Role.TAGGER) {
                 continue;
             }
 
@@ -95,7 +95,7 @@ public class Util {
         List<UUID> uuids = getAllPlayerUUIDs(true, true);
         switch (Prag.config.getString("Tag-Type")) {
             case "FREEZE":
-                return uuids.size() == Prag.frozenPlayers.size();
+                return uuids.size() == getTeamFromName(Bukkit.getPlayer(uuids.get(0)), Role.FROZEN.name()).getSize();
             case "INFECTION":
             case "ELIMINATION":
                 return uuids.size() == 0;
@@ -109,9 +109,7 @@ public class Util {
      */
     public static void setupNametagDisplay(Player player) {
 
-        player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-
-        for (Roles role : Roles.values()) {
+        for (Role role : Role.values()) {
             Team team = player.getScoreboard().registerNewTeam(role.name());
             team.setPrefix(ChatColor.translateAlternateColorCodes('&', role.getName()+" "));
         }
@@ -119,14 +117,48 @@ public class Util {
     }
 
     /**
+     * Gets the team from the player
+     * @param scoreHolder The player to get the scoreboard from
+     * @param player The player to get the team of
+     * @return The team of the player
+     */
+    public static Team getTeamFromPlayer(Player scoreHolder, Player player) {
+        return scoreHolder.getScoreboard().getEntryTeam(player.getName());
+    }
+
+    /**
+     * Gets the team from the name
+     * @param scoreHolder The player to get the scoreboard from
+     * @param name The name of the team
+     * @return The team of the player
+     */
+    public static Team getTeamFromName(Player scoreHolder, String name) {
+        return scoreHolder.getScoreboard().getTeam(name);
+    }
+
+    /**
+     * Gets the player's role
+     * @param player The player to get the role of
+     * @return The player's role
+     */
+    public static Role getRole(Player player) {
+        for (Role role : Role.values()) {
+            if (getTeamFromPlayer(player, player).getName().equalsIgnoreCase(role.name())) {
+                return role;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Sets the player's role
      * @param player The player to set the role for
      * @param role The role to set the player to
      */
-    public static void setRole(Player player, Roles role) {
+    public static void setRole(Player player, Role role) {
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            p.getScoreboard().getTeam(role.name()).addEntry(player.getName());
+            getTeamFromName(p, role.name()).addEntry(player.getName());
         }
 
     }
@@ -134,14 +166,17 @@ public class Util {
     /**
      * Removes the player's role
      * @param player The player to remove the role from
-     * @param role The role to remove from the player
      */
     public static void removeRole(Player player) {
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            p.getScoreboard().getEntryTeam(player.getName()).removeEntry(player.getName());
+            getTeamFromPlayer(p, player).removeEntry(player.getName());
         }
 
     }
+
+
+
+
 
 }

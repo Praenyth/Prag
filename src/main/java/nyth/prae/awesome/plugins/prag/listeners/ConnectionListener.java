@@ -14,6 +14,7 @@ public class ConnectionListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
+        player.setScoreboard(Prag.PRAG_SCOREBOARD);
         Util.setupNametagDisplay(player);
 
     }

@@ -1,6 +1,6 @@
 package nyth.prae.awesome.plugins.prag.enums;
 
-public enum Roles {
+public enum Role {
     TAGGER("&cT"),
     RUNNER("&aR"),
     SPECTATOR("&7S"),
@@ -8,7 +8,7 @@ public enum Roles {
 
     private String name;
 
-    Roles(String name) {
+    Role(String name) {
         this.name = name;
     }
 

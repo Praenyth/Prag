@@ -26,11 +26,6 @@ public final class Prag extends JavaPlugin {
     public static SettingsCache settingsCache;
 
     public static Scoreboard PRAG_SCOREBOARD = Bukkit.getScoreboardManager().getNewScoreboard();
-    public static Team TAGGERS = PRAG_SCOREBOARD.registerNewTeam("taggers");
-    public static Team FROZEN = PRAG_SCOREBOARD.registerNewTeam("frozen");
-    public static Team PLAYERS = PRAG_SCOREBOARD.registerNewTeam("players");
-    public static List<UUID> taggers = new ArrayList<>();
-    public static List<UUID> frozenPlayers = new ArrayList<>();
 
     @Override
     public void onEnable() {
