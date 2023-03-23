@@ -1,8 +1,8 @@
 package nyth.prae.awesome.plugins.prag;
 
+import nyth.prae.awesome.plugins.prag.enums.GameType;
 import nyth.prae.awesome.plugins.prag.enums.Role;
 import nyth.prae.awesome.plugins.prag.enums.TaggerDamageType;
-import nyth.prae.awesome.plugins.prag.enums.GameType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -11,6 +11,7 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -47,9 +48,9 @@ public class Util {
     }
 
     /**
-     * Gets all of the player UUIDs that can exclude taggers and dead players
-     * @param excludeTaggers Whether or not to exclude taggers from the list
-     * @param excludeDead Whether or not to exclude dead players from the list
+     * Gets all the player UUIDs that can exclude taggers and dead players
+     * @param excludeTaggers Whether to exclude taggers from the list
+     * @param excludeDead Whether to exclude dead players from the list
      * @return A list of all online players' UUIDs
      */
     public static List<UUID> getAllPlayerUUIDs(boolean excludeTaggers, boolean excludeDead) {
@@ -89,25 +90,27 @@ public class Util {
 
     /**
      * Checks if the tagger has won
-     * @return Whether or not the tagger has won
+     * @return Whether the tagger has won
      */
     public static boolean checkForTaggerWin() {
         List<UUID> uuids = getAllPlayerUUIDs(true, true);
-        switch (Prag.config.getString("Tag-Type")) {
-            case "FREEZE":
-                return uuids.size() == getTeamFromName(Bukkit.getPlayer(uuids.get(0)), Role.FROZEN.name()).getSize();
-            case "INFECTION":
-            case "ELIMINATION":
-                return uuids.size() == 0;
+        if (Prag.config.getString("Tag-Type") != null) {
+            switch (Objects.requireNonNull(Prag.config.getString("Tag-Type"))) {
+                case "FREEZE":
+                    return uuids.size() == getTeamFromName(Objects.requireNonNull(Bukkit.getPlayer(uuids.get(0))), Role.FROZEN.name()).getSize();
+                case "INFECTION":
+                case "ELIMINATION":
+                    return uuids.size() == 0;
+            }
         }
         return false;
     }
 
     /**
-     * Sets up the scoreboard for the nametag display
+     * Sets up the scoreboard for the name display
      * @param player The player to set up the scoreboard for
      */
-    public static void setupNametagDisplay(Player player) {
+    public static void setupCustomNameDisplay(Player player) {
 
         for (Role role : Role.values()) {
             Team team = player.getScoreboard().registerNewTeam(role.name());
@@ -179,6 +182,10 @@ public class Util {
             getTeamFromName(p, role.name()).addEntry(player.getName());
         }
 
+        if (role.equals(Role.SPECTATOR)) {
+            player.setGameMode(GameMode.SPECTATOR);
+        }
+
     }
 
     /**
@@ -193,8 +200,28 @@ public class Util {
 
     }
 
+    /**
+     * Ends the game
+     * @param taggersWin Whether the taggers won
+     */
+    public static void endGame(boolean taggersWin) {
+        if (taggersWin) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
 
+                player.sendTitle(ChatColor.RED+ "The taggers have won!", "", 10, 70, 20);
 
+            }
+            announceMessage(ChatColor.RED+ "The taggers have won!");
+            Prag.gamePeriod.cancel();
+            Prag.preparationPeriod.cancel();
+        } else {
+            for (Player player : Bukkit.getOnlinePlayers()) {
 
+                player.sendTitle(ChatColor.GREEN+ "The runners have won!", "", 10, 70, 20);
+
+            }
+            announceMessage(ChatColor.GREEN+ "The runners have won!");
+        }
+    }
 
 }

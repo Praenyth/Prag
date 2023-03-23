@@ -10,6 +10,7 @@ import nyth.prae.awesome.plugins.prag.enums.GameState;
 import nyth.prae.awesome.plugins.prag.enums.Role;
 import nyth.prae.awesome.plugins.prag.runnables.PreparationTimePeriod;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,6 +20,10 @@ public class PragStartCommand {
     @CommandDescription("Starts the game!")
     @CommandPermission("prag.admin.start")
     public void start(CommandContext<CommandSender> context) {
+        if (Prag.gameState != GameState.INGAME) {
+            context.getSender().sendMessage(ChatColor.RED+"Game is already in progress!");
+            return;
+        }
         context.getSender().sendMessage("Game started with type: "+ Prag.config.get("Tag-Type"));
 
         Prag.gameState = GameState.LOBBY;

@@ -2,6 +2,8 @@ package nyth.prae.awesome.plugins.prag.listeners;
 
 import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.Util;
+import nyth.prae.awesome.plugins.prag.enums.GameState;
+import nyth.prae.awesome.plugins.prag.enums.Role;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +17,12 @@ public class ConnectionListener implements Listener {
 
         Player player = event.getPlayer();
         player.setScoreboard(Prag.PRAG_SCOREBOARD);
-        Util.setupNametagDisplay(player);
+        Util.setupCustomNameDisplay(player);
+        Util.setRole(player, Role.RUNNER);
+
+        if (Prag.gameState == GameState.INGAME) {
+            Util.setRole(player, Role.SPECTATOR);
+        }
 
     }
 
@@ -24,7 +31,11 @@ public class ConnectionListener implements Listener {
 
         Player player = event.getPlayer();
         Util.removeRole(player);
-
+        if (Prag.gameState == GameState.INGAME) {
+            if (Util.checkForTaggerWin()) {
+                Util.endGame(true);
+            }
+        }
     }
 
 }

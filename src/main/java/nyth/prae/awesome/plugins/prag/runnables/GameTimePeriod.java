@@ -35,6 +35,7 @@ public class GameTimePeriod extends BukkitRunnable {
         }
 
         if (timeLeft <= 0) {
+            Util.endGame(false);
             cancel();
         }
     }

@@ -5,8 +5,12 @@ import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.CommandPermission;
 import cloud.commandframework.context.CommandContext;
 import nyth.prae.awesome.plugins.prag.Prag;
+import nyth.prae.awesome.plugins.prag.Util;
 import nyth.prae.awesome.plugins.prag.enums.GameState;
+import nyth.prae.awesome.plugins.prag.enums.Role;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class PragStopCommand {
 
@@ -14,8 +18,11 @@ public class PragStopCommand {
     @CommandDescription("Stops the game!")
     @CommandPermission("prag.admin.stop")
     public void stop(CommandContext<CommandSender> context) {
-        context.getSender().sendMessage("Game was forcibily stopped!");
+        context.getSender().sendMessage("Game was forcibly stopped!");
         Prag.gameState = GameState.LOBBY;
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Util.setRole(player, Role.RUNNER);
+        }
 
         if (Prag.preparationPeriod != null) {
             Prag.preparationPeriod.cancel();

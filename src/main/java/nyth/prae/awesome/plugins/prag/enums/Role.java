@@ -6,7 +6,7 @@ public enum Role {
     SPECTATOR("&7S"),
     FROZEN("&bF");
 
-    private String name;
+    private final String name;
 
     Role(String name) {
         this.name = name;

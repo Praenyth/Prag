@@ -30,9 +30,9 @@ public class PreparationTimePeriod extends BukkitRunnable {
 
             while (Util.getTeamFromName(Role.TAGGER.name()).getSize() < Prag.config.getInt("Amount-Of-Taggers")) {
                 Player player = Bukkit.getPlayer(Util.getRandomPlayerUUID());
-                Util.setRole(player, Role.TAGGER);
-                player.setDisplayName(ChatColor.RED + player.getName());
+                assert player != null;
                 Util.announceMessage(ChatColor.RED + player.getName() + " is a tagger!");
+                Util.setRole(player, Role.TAGGER);
             }
 
             cancel();

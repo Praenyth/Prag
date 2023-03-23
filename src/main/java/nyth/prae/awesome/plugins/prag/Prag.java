@@ -9,11 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 
 public final class Prag extends JavaPlugin {
 
@@ -25,7 +22,7 @@ public final class Prag extends JavaPlugin {
     public static GameState gameState;
     public static SettingsCache settingsCache;
 
-    public static Scoreboard PRAG_SCOREBOARD = Bukkit.getScoreboardManager().getNewScoreboard();
+    public static Scoreboard PRAG_SCOREBOARD = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
 
     @Override
     public void onEnable() {

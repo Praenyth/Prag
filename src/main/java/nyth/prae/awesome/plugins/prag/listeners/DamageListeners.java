@@ -1,8 +1,8 @@
 package nyth.prae.awesome.plugins.prag.listeners;
 
+import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.Util;
 import nyth.prae.awesome.plugins.prag.enums.GameState;
-import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.enums.Role;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -27,7 +27,7 @@ public class DamageListeners implements Listener {
             if (Prag.gameState == GameState.INGAME) {
                 if (damager.getGameMode().equals(GameMode.SURVIVAL)) {
                     if (Util.getRole(damager) == Role.TAGGER) {
-                        switch (Prag.config.getString("Tag-Type")) {
+                        switch (Objects.requireNonNull(Prag.config.getString("Tag-Type"))) {
                             case "NORMAL":
                                 Util.announceMessage(ChatColor.RED + victim.getName() + " was tagged by " + damager.getName() + "!");
                                 Util.setRole(damager, Role.RUNNER);
@@ -61,7 +61,6 @@ public class DamageListeners implements Listener {
     public void onOtherDamage(EntityDamageEvent event) {
 
         if (event.getEntity() instanceof Player) {
-            Player player = (Player) event.getEntity();
             if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) {
                 if (Prag.gameState == GameState.INGAME) {
                     event.setCancelled(true);
@@ -76,8 +75,8 @@ public class DamageListeners implements Listener {
 
         Player victim = event.getEntity();
         if (Prag.gameState == GameState.INGAME) {
-            if (!Util.getRole(victim).equals(Role.TAGGER)) {
-                if (Prag.config.getString("Tag-Type").equals("INFECTION")) {
+            if (!Objects.equals(Util.getRole(victim), Role.TAGGER)) {
+                if (Objects.equals(Prag.config.getString("Tag-Type"), "INFECTION")) {
                     Util.setRole(victim, Role.TAGGER);
                     Util.announceMessage(ChatColor.RED + victim.getName() + " was infected!");
                 }
