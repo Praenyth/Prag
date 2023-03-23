@@ -2,7 +2,9 @@ package nyth.prae.awesome.plugins.prag;
 
 import nyth.prae.awesome.plugins.prag.commands.PragCommand;
 import nyth.prae.awesome.plugins.prag.enums.GameState;
+import nyth.prae.awesome.plugins.prag.listeners.ConnectionListeners;
 import nyth.prae.awesome.plugins.prag.listeners.DamageListeners;
+import nyth.prae.awesome.plugins.prag.listeners.WorldLoadListener;
 import nyth.prae.awesome.plugins.prag.runnables.GameTimePeriod;
 import nyth.prae.awesome.plugins.prag.runnables.PreparationTimePeriod;
 import org.bukkit.Bukkit;
@@ -21,8 +23,7 @@ public final class Prag extends JavaPlugin {
     public static Configuration config;
     public static GameState gameState;
     public static SettingsCache settingsCache;
-
-    public static Scoreboard PRAG_SCOREBOARD = Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard();
+    public static Scoreboard PRAG_SCOREBOARD;
 
     @Override
     public void onEnable() {
@@ -34,10 +35,13 @@ public final class Prag extends JavaPlugin {
 
         // Register events
         getServer().getPluginManager().registerEvents(new DamageListeners(), INSTANCE);
+        getServer().getPluginManager().registerEvents(new ConnectionListeners(), INSTANCE);
+        getServer().getPluginManager().registerEvents(new WorldLoadListener(), INSTANCE);
 
         // Register commands
         PragCommand.register();
 
+        Util.setAndSaveConfig("config-version","1");
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +22,6 @@ public class Util {
 
         Prag.INSTANCE.getConfig().set(s, v);
         Prag.settingsCache = new SettingsCache();
-        Prag.settingsCache.adventureMode = Prag.INSTANCE.getConfig().getBoolean("Adventure-Mode");
         Prag.settingsCache.gameTime = Prag.INSTANCE.getConfig().getInt("Game-Time");
         Prag.settingsCache.taggerDamage = Prag.INSTANCE.getConfig().getDouble("Tagger-Damage");
         Prag.settingsCache.taggerDamageType = TaggerDamageType.valueOf(Prag.INSTANCE.getConfig().getString("Tagger-Damage-Type"));
@@ -112,10 +112,15 @@ public class Util {
      */
     public static void setupCustomNameDisplay(Player player) {
 
-        for (Role role : Role.values()) {
-            Team team = player.getScoreboard().registerNewTeam(role.name());
-            team.setPrefix(ChatColor.translateAlternateColorCodes('&', role.getName()+" "));
+        if (Prag.PRAG_SCOREBOARD == null) {
+            Prag.PRAG_SCOREBOARD = Bukkit.getScoreboardManager().getNewScoreboard();
+
+            for (Role role : Role.values()) {
+                Team team = Prag.PRAG_SCOREBOARD.registerNewTeam(role.name());
+                team.setPrefix(ChatColor.translateAlternateColorCodes('&', role.getName()+" "));
+            }
         }
+        player.setScoreboard(Prag.PRAG_SCOREBOARD);
 
     }
 
@@ -205,10 +210,11 @@ public class Util {
      * @param taggersWin Whether the taggers won
      */
     public static void endGame(boolean taggersWin) {
+
         if (taggersWin) {
             for (Player player : Bukkit.getOnlinePlayers()) {
 
-                player.sendTitle(ChatColor.RED+ "The taggers have won!", "", 10, 70, 20);
+                player.sendTitle(ChatColor.RED+ "Taggers Win!", "", 10, 70, 20);
 
             }
             announceMessage(ChatColor.RED+ "The taggers have won!");
@@ -217,11 +223,32 @@ public class Util {
         } else {
             for (Player player : Bukkit.getOnlinePlayers()) {
 
-                player.sendTitle(ChatColor.GREEN+ "The runners have won!", "", 10, 70, 20);
+                player.sendTitle(ChatColor.GREEN+ "Runners Win!", "", 10, 70, 20);
 
             }
             announceMessage(ChatColor.GREEN+ "The runners have won!");
         }
+    }
+
+    /**
+     * Ends the game
+     * @param name The name of the player who lost
+     */
+    public static void endGame(String name) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+
+            player.sendTitle(ChatColor.RED+ "Game Over!", "", 10, 70, 20);
+
+        }
+        if (name != null) {
+            announceMessage(ChatColor.RED+ name + "has lost!");
+        } else {
+            announceMessage(ChatColor.RED+ "The game is over!");
+        }
+
+        Prag.gamePeriod.cancel();
+        Prag.preparationPeriod.cancel();
+
     }
 
 }

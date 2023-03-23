@@ -20,13 +20,13 @@ public class PragStartCommand {
     @CommandDescription("Starts the game!")
     @CommandPermission("prag.admin.start")
     public void start(CommandContext<CommandSender> context) {
-        if (Prag.gameState != GameState.INGAME) {
+        if (Prag.gameState == GameState.INGAME) {
             context.getSender().sendMessage(ChatColor.RED+"Game is already in progress!");
             return;
         }
-        context.getSender().sendMessage("Game started with type: "+ Prag.config.get("Tag-Type"));
+        context.getSender().sendMessage("Game started with type: "+ Prag.settingsCache.tagType.name());
 
-        Prag.gameState = GameState.LOBBY;
+        Prag.gameState = GameState.INGAME;
 
         for (Player player:
                 Bukkit.getOnlinePlayers()) {

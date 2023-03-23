@@ -5,6 +5,7 @@ import cloud.commandframework.annotations.CommandDescription;
 import cloud.commandframework.annotations.CommandMethod;
 import cloud.commandframework.annotations.CommandPermission;
 import cloud.commandframework.context.CommandContext;
+import nyth.prae.awesome.plugins.prag.Prag;
 import nyth.prae.awesome.plugins.prag.Util;
 import nyth.prae.awesome.plugins.prag.enums.GameType;
 import nyth.prae.awesome.plugins.prag.enums.TaggerDamageType;
@@ -73,6 +74,7 @@ public class PragSettingsCommand {
     public void setTagType(CommandContext<CommandSender> context, @Argument(value = "tagtype") GameType tagType) {
 
         Util.setAndSaveConfig("Tag-Type", tagType.name());
+        Prag.settingsCache.tagType = tagType;
         context.getSender().sendMessage(ChatColor.GREEN+"The tag type has been changed to "+tagType.name()+"!");
     }
 
@@ -81,6 +83,7 @@ public class PragSettingsCommand {
     @CommandPermission("prag.admin.settings")
     public void setPreparationTime(CommandContext<CommandSender> context, @Argument(value = "preparationtime") int preparationtime) {
         Util.setAndSaveConfig("Preparation-Time", preparationtime);
+        Prag.settingsCache.preparationTime = preparationtime;
         context.getSender().sendMessage(ChatColor.GREEN+"The preparation time has been set to "+preparationtime+" seconds!");
     }
 
@@ -89,6 +92,7 @@ public class PragSettingsCommand {
     @CommandPermission("prag.admin.settings")
     public void setGameTime(CommandContext<CommandSender> context, @Argument(value = "gametime") int gametime) {
         Util.setAndSaveConfig("Game-Time", gametime);
+        Prag.settingsCache.gameTime = gametime;
         context.getSender().sendMessage(ChatColor.GREEN+"The game time has been set to "+gametime+" seconds!");
     }
 
@@ -97,6 +101,7 @@ public class PragSettingsCommand {
     @CommandPermission("prag.admin.settings")
     public void setTaggerDamageType(CommandContext<CommandSender> context, @Argument(value = "taggerdamagetype") TaggerDamageType taggerDamageType) {
         Util.setAndSaveConfig("Tagger-Damage-Type", taggerDamageType.name());
+        Prag.settingsCache.taggerDamageType = taggerDamageType;
         context.getSender().sendMessage(ChatColor.GREEN+"The tagger damage type has been set to "+taggerDamageType.name()+"!");
     }
 
@@ -105,14 +110,16 @@ public class PragSettingsCommand {
     @CommandPermission("prag.admin.settings")
     public void setTaggerDamage(CommandContext<CommandSender> context, @Argument(value = "taggerdamage") double taggerDamage) {
         Util.setAndSaveConfig("Tagger-Damage", taggerDamage);
+        Prag.settingsCache.taggerDamage = taggerDamage;
         context.getSender().sendMessage(ChatColor.GREEN+"The tagger damage has been set to "+taggerDamage+"!");
     }
 
     @CommandMethod("prag settings taggeramount <taggeramount>")
     @CommandDescription("Changes the amount of taggers there are!")
     @CommandPermission("prag.admin.settings")
-    public void setTaggerAmount(CommandContext<CommandSender> context, @Argument(value = "taggeramount") double taggerAmount) {
+    public void setTaggerAmount(CommandContext<CommandSender> context, @Argument(value = "taggeramount") int taggerAmount) {
         Util.setAndSaveConfig("Amount-Of-Taggers", taggerAmount);
+        Prag.settingsCache.amountOfTaggers = taggerAmount;
         context.getSender().sendMessage(ChatColor.GREEN+"The tagger amount has been set to "+taggerAmount+"!");
     }
 }

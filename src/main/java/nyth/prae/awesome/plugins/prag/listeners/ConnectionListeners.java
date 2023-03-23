@@ -10,14 +10,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class ConnectionListener implements Listener {
+public class ConnectionListeners implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
-        player.setScoreboard(Prag.PRAG_SCOREBOARD);
         Util.setupCustomNameDisplay(player);
+
         Util.setRole(player, Role.RUNNER);
 
         if (Prag.gameState == GameState.INGAME) {

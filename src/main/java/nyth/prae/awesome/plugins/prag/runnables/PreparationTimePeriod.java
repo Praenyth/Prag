@@ -15,7 +15,7 @@ public class PreparationTimePeriod extends BukkitRunnable {
     private int timeLeft;
 
     public void start() {
-        timeLeft = Prag.config.getInt("Preparation-Time");
+        timeLeft = Prag.settingsCache.preparationTime;
         runTaskTimer(Prag.INSTANCE, 0, 20);
     }
     public void cancel() { super.cancel(); }
@@ -28,7 +28,7 @@ public class PreparationTimePeriod extends BukkitRunnable {
 
         if (timeLeft <= 0) {
 
-            while (Util.getTeamFromName(Role.TAGGER.name()).getSize() < Prag.config.getInt("Amount-Of-Taggers")) {
+            while (Util.getTeamFromName(Role.TAGGER.name()).getSize() < Prag.settingsCache.amountOfTaggers) {
                 Player player = Bukkit.getPlayer(Util.getRandomPlayerUUID());
                 assert player != null;
                 Util.announceMessage(ChatColor.RED + player.getName() + " is a tagger!");
